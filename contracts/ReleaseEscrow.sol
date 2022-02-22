@@ -87,14 +87,12 @@ contract ReleaseEscrow is ReentrancyGuard, IReleaseEscrow {
 
     /* ========== MUTATIVE FUNCTIONS ========== */
 
-    /**
+   /**
      * Withdraws tokens based on the current reward rate and the time since last withdrawal.
-     *
-     * @notice The tokens received represent rewards earned across all pools. The PoolManager contract handles the logic
-     *          for partitioning rewards based on a specific pool's weight.
-     * @notice This function is called by the PoolManager contract whenever a user claims rewards for a specific pool.
+     * @notice This function is called by the StakingRewards contract whenever a user claims rewards.
+     * @return uint256 Number of tokens claimed.
      */
-    function withdraw() external override started onlyBeneficiary nonReentrant {
+    function withdraw() external override started onlyBeneficiary nonReentrant returns(uint256) {
         uint256 startOfCycle = schedule.getStartOfCurrentCycle();
         uint256 availableTokens = 0;
 
@@ -110,6 +108,8 @@ contract ReleaseEscrow is ReentrancyGuard, IReleaseEscrow {
         lastWithdrawalTime = block.timestamp;
         distributedRewards = distributedRewards.add(availableTokens);
         rewardToken.safeTransfer(beneficiary, availableTokens);
+
+        return availableTokens;
     }
 
     /* ========== MODIFIERS ========== */
