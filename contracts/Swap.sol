@@ -56,13 +56,6 @@ contract Swap is ISwap {
         emit Swapped(_asset, _amount, amounts[amounts.length - 1]);
     }
 
-    /* ========== MODIFIERS ========== */
-
-    modifier assetIsValid(address assetToCheck) {
-        require(assetToCheck != address(0), "UbeswapPathManager: Asset cannot have zero address.");
-        _;
-    }
-
     /* ========== EVENTS ========== */
 
     event Swapped(address asset, uint256 amountOfTokensSwapped, uint256 amountOfTokensReceived);
