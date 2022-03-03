@@ -10,9 +10,6 @@ import "./openzeppelin-solidity/contracts/ERC20/SafeERC20.sol";
 import "./openzeppelin-solidity/contracts/ERC20/IERC20.sol";
 import "./openzeppelin-solidity/contracts/Ownable.sol";
 
-//Inheritance
-import './interfaces/ISwap.sol';
-
 contract SeedLiquidity is Ownable {
     using SafeERC20 for IERC20;
 
@@ -21,9 +18,9 @@ contract SeedLiquidity is Ownable {
     IERC20 public immutable TGEN;
 
     constructor(address _ubeswapRouter, address _TGEN, address _CELO) Ownable() {
-        require(_ubeswapRouter != address(0), "Swap: invalid address for Ubeswap router.");
-        require(_TGEN != address(0), "Swap: invalid address for TGEN.");
-        require(_CELO != address(0), "Swap: invalid address for CELO.");
+        require(_ubeswapRouter != address(0), "SeedLiquidity: invalid address for Ubeswap router.");
+        require(_TGEN != address(0), "SeedLiquidity: invalid address for TGEN.");
+        require(_CELO != address(0), "SeedLiquidity: invalid address for CELO.");
 
         ubeswapRouter = IUniswapV2Router02(_ubeswapRouter);
         TGEN = IERC20(_TGEN);
@@ -36,8 +33,8 @@ contract SeedLiquidity is Ownable {
     * @dev Supplies TGEN-CELO seed liquidity with the contract's available TGEN and CELO.
     */
     function supplySeedLiquidity() external onlyOwner {
-        require(TGEN.balanceOf(address(this)) > 0, "Swap: not enough TGEN.");
-        require(CELO.balanceOf(address(this)) > 0, "Swap: not enough CELO.");
+        require(TGEN.balanceOf(address(this)) > 0, "SeedLiquidity: not enough TGEN.");
+        require(CELO.balanceOf(address(this)) > 0, "SeedLiquidity: not enough CELO.");
 
         TGEN.approve(address(ubeswapRouter), TGEN.balanceOf(address(this)));
         CELO.approve(address(ubeswapRouter), CELO.balanceOf(address(this)));
