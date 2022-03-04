@@ -22,6 +22,19 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
         TGEN = IERC20(_TGEN);
     }
 
+    /* ========== VIEWS ========== */
+
+    /**
+     * @dev Returns the price of one share, in TGEN.
+     */
+    function getSharePrice() external view returns (uint256) {
+        if (totalSupply() == 0) {
+            return 1e18;
+        }
+
+        return TGEN.balanceOf(address(this)).div(totalSupply());
+    }
+
     /* ========== MUTATIVE FUNCTIONS ========== */
 
     /**
