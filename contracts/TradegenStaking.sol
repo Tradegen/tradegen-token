@@ -32,7 +32,7 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
             return 1e18;
         }
 
-        return TGEN.balanceOf(address(this)).div(totalSupply());
+        return TGEN.balanceOf(address(this)).mul(1e18).div(totalSupply());
     }
 
     /* ========== MUTATIVE FUNCTIONS ========== */

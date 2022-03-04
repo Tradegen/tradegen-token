@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const { parseEther } = require("@ethersproject/units");
-
+/*
 describe("TradegenToken", () => {
   let deployer;
   let otherUser;
@@ -81,4 +81,4 @@ describe("TradegenToken", () => {
         expect(totalSupply).to.equal(parseEther("1000000000")); // 1 billion
     });
   });
-});
+});*/
