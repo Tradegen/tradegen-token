@@ -4,7 +4,7 @@ pragma solidity ^0.8.3;
 
 import "./openzeppelin-solidity/contracts/ERC20/ERC20.sol";
 
-contract TradegenERC20 is ERC20 {
+contract TradegenToken is ERC20 {
     address public immutable teamEscrow;
     address public immutable investorEscrow;
     address public immutable communityFund;
