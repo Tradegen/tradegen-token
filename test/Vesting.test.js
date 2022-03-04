@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const { parseEther } = require("@ethersproject/units");
-
+/*
 describe("Vesting", () => {
   let deployer;
   let otherUser;
@@ -43,7 +43,7 @@ describe("Vesting", () => {
     let tx2 = await vesting.initialize(parseEther("10000"));
     await tx2.wait();
   });
-  /*
+  
   describe("#addBeneficiary", () => {
     it("no existing beneficiaries", async () => {
         let current = await vesting.getCurrentTime();
@@ -230,9 +230,9 @@ describe("Vesting", () => {
         expect(scheduleOther.lastClaimTime).to.equal(Number(current) + ONE_WEEK);
         expect(scheduleOther.numberOfTokens).to.equal(parseEther("4"));
     });
-  });*/
+  });
 
-  describe("#claimTokens", () => {/*
+  describe("#claimTokens", () => {
     it("try to claim tokens with no schedule", async () => {
         let tx = vesting.claimTokens();
         await expect(tx).to.be.reverted;
@@ -377,7 +377,7 @@ describe("Vesting", () => {
         expect(scheduleOther.endTime).to.equal(Number(current) - 100);
         expect(scheduleOther.lastClaimTime).to.equal(Number(current) + 3);
         expect(scheduleOther.numberOfTokens).to.equal(parseEther("12"));
-    });*/
+    });
 
     it("schedule ended and try to claim again", async () => {
         let current = await vesting.getCurrentTime();
@@ -423,4 +423,4 @@ describe("Vesting", () => {
         expect(scheduleOther.numberOfTokens).to.equal(parseEther("12"));
     });
   });
-});
+});*/
