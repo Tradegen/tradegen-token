@@ -19,6 +19,20 @@ contract TestVesting is Vesting {
         });
     }
 
+    function setStartTime(address _beneficiary, uint256 _startTime) external {
+        schedules[_beneficiary].startTime = _startTime;
+    }
+
+    function getBeneficiaries() external view returns (address[] memory) {
+        address[] memory output = new address[](beneficiaries.length);
+
+        for (uint i = 0; i < beneficiaries.length; i++) {
+            output[i] = beneficiaries[i];
+        }
+
+        return output;
+    }
+
     function getCurrentTime() external view returns (uint256) {
         return block.timestamp;
     }

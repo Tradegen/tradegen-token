@@ -65,7 +65,7 @@ contract Vesting is Ownable {
     * @notice This number represents the number of tokens that haven't been allocated to a vesting schedule.
     */
     function tokensLeftToDistribute() public view returns (uint256) {
-        return totalTokensToDistribute.sub(tokensVesting);
+        return TGEN.balanceOf(address(this)).sub(tokensVesting);
     }
 
     /* ========== MUTATIVE FUNCTIONS ========== */
@@ -86,7 +86,8 @@ contract Vesting is Ownable {
         }
 
         // Ratio of (time elapsed since last claim) / (duration of vesting schedule)
-        uint256 availableTokens = schedule.numberOfTokens.mul(block.timestamp.sub(schedule.lastClaimTime)).div(schedule.endTime.sub(schedule.startTime));
+        uint256 lastTimeApplicable = (block.timestamp >= schedule.endTime) ? schedule.endTime : block.timestamp; 
+        uint256 availableTokens = schedule.numberOfTokens.mul(lastTimeApplicable.sub(schedule.lastClaimTime)).div(schedule.endTime.sub(schedule.startTime));
 
         schedules[msg.sender].lastClaimTime = block.timestamp;
         claimedTokens[msg.sender] = claimedTokens[msg.sender].add(availableTokens);
@@ -143,6 +144,7 @@ contract Vesting is Ownable {
         require(TGEN.balanceOf(address(this)) >= _totalTokensToDistribute, "Vesting: balance must equal total tokens to distribute.");
 
         totalTokensToDistribute = _totalTokensToDistribute;
+        initialized = true;
 
         emit Initialized(_totalTokensToDistribute);
     }

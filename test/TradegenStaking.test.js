@@ -386,7 +386,7 @@ describe("TradegenStaking", () => {
         expect(sharePrice).to.equal(parseEther("3"));
     });*/
   });
-
+  /*
   describe("#exit", () => {
     it("exit and stake again; one investor", async () => {
         let initialBalance = await tradegenToken.balanceOf(deployer.address);
@@ -427,5 +427,5 @@ describe("TradegenStaking", () => {
         sharePrice = await tradegenStaking.getSharePrice();
         expect(sharePrice).to.equal(parseEther("1"));
     });
-  });
+  });*/
 });
