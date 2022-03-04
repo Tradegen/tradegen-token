@@ -26,15 +26,15 @@ contract Vesting is Ownable {
     mapping (address => VestingSchedule) public schedules;
     mapping (address => uint256) public claimedTokens; // Number of tokens a beneficiary has claimed (includes previous schedules).
 
-    uint256 public immutable totalTokensToDistribute;
+    uint256 public totalTokensToDistribute;
     uint256 public tokensVesting; // Number of tokens in existing schedules.
+
+    bool private initialized = false;
 
     constructor(address _TGEN) Ownable() {
         require(_TGEN != address(0), "Vesting: invalid address for TGEN.");
 
         TGEN = IERC20(_TGEN);
-
-        totalTokensToDistribute = IERC20(_TGEN).balanceOf(address(this));
     }
 
     /* ========== VIEWS ========== */
@@ -74,7 +74,7 @@ contract Vesting is Ownable {
     * @dev Claims vested tokens for the caller.
     * @notice If the caller isn't a beneficiary, they wouldn't be able to claim, since (schedule.active) would be false.
     */
-    function claimTokens() external {
+    function claimTokens() external isInitialized {
         VestingSchedule memory schedule = schedules[msg.sender];
 
         require(schedule.isActive, "Vesting: beneficiary does not have an active vesting schedule.");
@@ -108,7 +108,7 @@ contract Vesting is Ownable {
     * @param _numberOfWeeks Duration of the vesting schedule, in weeks.
     * @param _numberOfTokens Total number of tokens to distribute.
     */
-    function addBeneficiary(address _beneficiary, uint256 _startTime, uint256 _numberOfWeeks, uint256 _numberOfTokens) external onlyOwner {
+    function addBeneficiary(address _beneficiary, uint256 _startTime, uint256 _numberOfWeeks, uint256 _numberOfTokens) external onlyOwner isInitialized {
         require(_beneficiary != address(0), "Vesting: invalid address for beneficiary.");
         require(_startTime >= block.timestamp, "Vesting: start time must be in the future.");
         require(_numberOfWeeks > 0, "Vesting: number of weeks must be positive.");
@@ -134,8 +134,34 @@ contract Vesting is Ownable {
         emit AddedBeneficiary(_beneficiary, _startTime, _numberOfWeeks, _numberOfTokens);
     }
 
+    /**
+    * @dev Checks whether this contract's TGEN balance matches the desired distribution amount.
+    * @param _totalTokensToDistribute total number of TGEN that this contract will distribute.
+    */
+    function initialize(uint256 _totalTokensToDistribute) external onlyOwner isNotInitialized {
+        require(_totalTokensToDistribute > 0, "Vesting: total tokens to distribute must be positive.");
+        require(TGEN.balanceOf(address(this)) >= _totalTokensToDistribute, "Vesting: balance must equal total tokens to distribute.");
+
+        totalTokensToDistribute = _totalTokensToDistribute;
+
+        emit Initialized(_totalTokensToDistribute);
+    }
+
+    /* ========== MODIFIERS ========== */
+
+    modifier isInitialized() {
+        require(initialized, "Vesting: contract must be initialized.");
+        _;
+    }
+
+    modifier isNotInitialized() {
+        require(!initialized, "Vesting: contract must not be initialized.");
+        _;
+    }
+
     /* ========== EVENTS ========== */
 
     event AddedBeneficiary(address beneficiary, uint256 startTime, uint256 numberOfWeeks, uint256 numberOfTokens);
     event ClaimedTokens(address beneficiary, uint256 numberOfTokens);
+    event Initialized(uint256 totalTokens);
 }
