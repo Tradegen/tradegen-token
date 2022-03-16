@@ -4,7 +4,7 @@ Tradegen is an asset management and synthetic trading bot protocol built on Celo
 
 ## Disclaimer
 
-These contracts have not been audited yet.
+These contracts have not been audited or deployed yet.
 
 ## Docs
 
