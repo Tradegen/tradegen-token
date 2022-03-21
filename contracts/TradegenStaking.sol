@@ -74,7 +74,7 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
 
         // Gets the amount of xTGEN in existence
         uint256 totalShares = totalSupply();
-        // Calculates the amount of Sushi the xSushi is worth
+        // Calculates the amount of TGEN the xTGEN is worth
         uint256 numberOfTGEN = _share.mul(TGEN.balanceOf(address(this))).div(totalShares);
 
         _burn(msg.sender, _share);

@@ -16,7 +16,6 @@ describe("TradegenToken", () => {
   let timelockAddress4;
   let timelockAddress5;
   let timelockAddress6;
-  let timelockAddress7;
   let TimelockFactory;
   
   before(async () => {
@@ -51,11 +50,7 @@ describe("TradegenToken", () => {
     await timelock.deployed();
     timelockAddress6 = timelock.address;
 
-    timelock = await TimelockFactory.deploy(deployer.address, 86400 * 7);
-    await timelock.deployed();
-    timelockAddress7 = timelock.address;
-
-    tradegenToken = await TradegenTokenFactory.deploy(timelockAddress1, timelockAddress2, timelockAddress3, timelockAddress4, timelockAddress5, timelockAddress6, timelockAddress7);
+    tradegenToken = await TradegenTokenFactory.deploy(timelockAddress1, timelockAddress2, timelockAddress3, timelockAddress4, timelockAddress5, timelockAddress6);
     await tradegenToken.deployed();
     tradegenTokenAddress = tradegenToken.address;
   });
@@ -68,17 +63,15 @@ describe("TradegenToken", () => {
         const balanceSeedLiquiditySupplier = await tradegenToken.balanceOf(timelockAddress4);
         const balanceLiquidityMiningEscrow = await tradegenToken.balanceOf(timelockAddress5);
         const balancePoolFarmingEscrow = await tradegenToken.balanceOf(timelockAddress6);
-        const balanceBotMiningRewardsEscrow = await tradegenToken.balanceOf(timelockAddress7);
         const totalSupply = await tradegenToken.totalSupply();
 
         expect(balanceTeamEscrow).to.equal(parseEther("50000000")); // 50 million
         expect(balanceInvestorEscrow).to.equal(parseEther("50000000")); // 50 million
-        expect(balanceCommunityFund).to.equal(parseEther("150000000")); // 150 million
+        expect(balanceCommunityFund).to.equal(parseEther("100000000")); // 100 million
         expect(balanceSeedLiquiditySupplier).to.equal(parseEther("1000000")); // 1 million
         expect(balanceLiquidityMiningEscrow).to.equal(parseEther("149000000")); // 149 million
         expect(balancePoolFarmingEscrow).to.equal(parseEther("250000000")); // 250 million
-        expect(balanceBotMiningRewardsEscrow).to.equal(parseEther("350000000")); // 350 million
-        expect(totalSupply).to.equal(parseEther("1000000000")); // 1 billion
+        expect(totalSupply).to.equal(parseEther("600000000")); // 600 million
     });
   });
 });*/
