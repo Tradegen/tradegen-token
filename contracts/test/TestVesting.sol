@@ -6,8 +6,8 @@ pragma solidity ^0.8.3;
 import "../Vesting.sol";
 
 contract TestVesting is Vesting {
-    constructor(address _TGEN)
-        Vesting(_TGEN) {}
+    constructor()
+        Vesting() {}
 
     function setSchedule(address _beneficiary, bool _isActive, uint256 _startTime, uint256 _endTime, uint256 _lastClaimTime, uint256 _numberOfTokens) external {
         schedules[_beneficiary] = VestingSchedule({

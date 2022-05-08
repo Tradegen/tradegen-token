@@ -15,38 +15,50 @@ contract SeedLiquidity is Ownable {
 
     IUniswapV2Router02 public immutable ubeswapRouter;
     IERC20 public immutable CELO;
-    IERC20 public immutable TGEN;
+    IERC20 public TGEN;
 
-    constructor(address _ubeswapRouter, address _TGEN, address _CELO) Ownable() {
-        require(_ubeswapRouter != address(0), "SeedLiquidity: invalid address for Ubeswap router.");
-        require(_TGEN != address(0), "SeedLiquidity: invalid address for TGEN.");
-        require(_CELO != address(0), "SeedLiquidity: invalid address for CELO.");
+    constructor(address _ubeswapRouter, address _CELO) Ownable() {
+        require(_ubeswapRouter != address(0), "SeedLiquidity: Invalid address for Ubeswap router.");
+        require(_CELO != address(0), "SeedLiquidity: Invalid address for CELO.");
 
         ubeswapRouter = IUniswapV2Router02(_ubeswapRouter);
-        TGEN = IERC20(_TGEN);
         CELO = IERC20(_CELO);
     }
 
     /* ========== MUTATIVE FUNCTIONS ========== */
 
     /**
-    * @dev Supplies TGEN-CELO seed liquidity with the contract's available TGEN and CELO.
+    * @notice Sets the address of TGEN.
+    * @dev The TGEN address is initialized outside of the constructor because the TradegenToken contract
+    *      expects this contract to already be deployed.
+    */
+    function setTGEN(address _TGEN) external onlyOwner {
+        require(address(TGEN) == address(0), "SeedLiquidity: Already set TGEN.");
+
+        TGEN = IERC20(_TGEN);
+
+        emit SetTGEN(_TGEN);
+    }
+
+    /**
+    * @notice Supplies TGEN-CELO seed liquidity with the contract's available TGEN and CELO.
     */
     function supplySeedLiquidity() external onlyOwner {
-        require(TGEN.balanceOf(address(this)) > 0, "SeedLiquidity: not enough TGEN.");
-        require(CELO.balanceOf(address(this)) > 0, "SeedLiquidity: not enough CELO.");
+        require(address(TGEN) != address(0), "SeedLiquidity: TGEN is not set.");
+        require(TGEN.balanceOf(address(this)) > 0, "SeedLiquidity: Not enough TGEN.");
+        require(CELO.balanceOf(address(this)) > 0, "SeedLiquidity: Not enough CELO.");
 
         TGEN.approve(address(ubeswapRouter), TGEN.balanceOf(address(this)));
         CELO.approve(address(ubeswapRouter), CELO.balanceOf(address(this)));
 
         (uint256 amountOfTGEN, uint256 amountOfCELO, uint256 numberOfLPTokens) = ubeswapRouter.addLiquidity(address(TGEN),
-                                                                                                        address(CELO),
-                                                                                                        TGEN.balanceOf(address(this)),
-                                                                                                        CELO.balanceOf(address(this)),
-                                                                                                        0,
-                                                                                                        0,
-                                                                                                        address(this),
-                                                                                                        block.timestamp + 10000);
+                                                                                                            address(CELO),
+                                                                                                            TGEN.balanceOf(address(this)),
+                                                                                                            CELO.balanceOf(address(this)),
+                                                                                                            0,
+                                                                                                            0,
+                                                                                                            address(this),
+                                                                                                            block.timestamp + 10000);
 
         renounceOwnership();
 
@@ -55,5 +67,6 @@ contract SeedLiquidity is Ownable {
 
     /* ========== EVENTS ========== */
 
+    event SetTGEN(address tokenAddress);
     event SuppliedLiquidity(uint256 amountOfTGEN, uint256 amountOfCELO, uint256 numberOfLPTokens);
 }

@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const { parseEther } = require("@ethersproject/units");
-
+/*
 describe("TradegenStaking", () => {
   let deployer;
   let otherUser;
@@ -21,7 +21,7 @@ describe("TradegenStaking", () => {
     TradegenTokenFactory = await ethers.getContractFactory('TradegenToken');
     TradegenStakingFactory = await ethers.getContractFactory('TradegenStaking');
 
-    tradegenToken = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
+    tradegenToken = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
     await tradegenToken.deployed();
     tradegenTokenAddress = tradegenToken.address;
   });
@@ -35,7 +35,7 @@ describe("TradegenStaking", () => {
     await tradegenStaking.deployed();
     tradegenStakingAddress = tradegenStaking.address;
   });
-  /*
+  
   describe("#getSharePrice", () => {
     it("nothing staked and no TGEN", async () => {
         const sharePrice = await tradegenStaking.getSharePrice();
@@ -282,9 +282,9 @@ describe("TradegenStaking", () => {
         const sharePrice = await tradegenStaking.getSharePrice();
         expect(sharePrice).to.equal(parseEther("2"));
     });
-  });*/
+  });
 
-  describe("#withdraw", () => {/*
+  describe("#withdraw", () => {
     it("withdraw with no TGEN prior", async () => {
         let tx = tradegenStaking.withdraw(parseEther("10"));
         await expect(tx).to.be.reverted;
@@ -384,9 +384,9 @@ describe("TradegenStaking", () => {
 
         const sharePrice = await tradegenStaking.getSharePrice();
         expect(sharePrice).to.equal(parseEther("3"));
-    });*/
+    });
   });
-  /*
+  
   describe("#exit", () => {
     it("exit and stake again; one investor", async () => {
         let initialBalance = await tradegenToken.balanceOf(deployer.address);
@@ -427,5 +427,5 @@ describe("TradegenStaking", () => {
         sharePrice = await tradegenStaking.getSharePrice();
         expect(sharePrice).to.equal(parseEther("1"));
     });
-  });*/
-});
+  });
+});*/

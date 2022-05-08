@@ -15,7 +15,7 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
     IERC20 public immutable TGEN;
 
     /**
-     * @dev Creates the TradegenStaking contract and defines the Tradegen token.
+     * @notice Creates the TradegenStaking contract and defines the Tradegen token.
      * @param _TGEN address of the Tradegen token contract.
      */
     constructor(address _TGEN) {
@@ -25,7 +25,7 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
     /* ========== VIEWS ========== */
 
     /**
-     * @dev Returns the price of one share, in TGEN.
+     * @notice Returns the price of one share, in TGEN.
      */
     function getSharePrice() external view returns (uint256) {
         if (totalSupply() == 0) {
@@ -38,17 +38,17 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
     /* ========== MUTATIVE FUNCTIONS ========== */
 
     /**
-     * @dev Stakes TGEN tokens.
+     * @notice Stakes TGEN tokens.
      * @param _amount Number of TGEN tokens to stake.
      */
     function stake(uint256 _amount) public {
         require (_amount > 0, "TradegenStaking: Amount must be greater than 0.");
 
-        // Gets the amount of TGEN locked in the contract
+        // Gets the amount of TGEN locked in the contract.
         uint256 totalTGEN = TGEN.balanceOf(address(this));
-        // Gets the amount of xTGEN in existence
+        // Gets the amount of xTGEN in existence.
         uint256 totalShares = totalSupply();
-        // If no xTGEN exists, mint it 1:1 to the amount put in
+        // If no xTGEN exists, mint it 1:1 to the amount put in.
         if (totalShares == 0 || totalTGEN == 0) {
             _mint(msg.sender, _amount);
 
@@ -61,20 +61,20 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
 
             emit Stake(msg.sender, _amount, numberOfShares);
         }
-        // Lock the TGEN in the contract
+        // Lock the TGEN in the contract.
         TGEN.safeTransferFrom(msg.sender, address(this), _amount);
     }
 
     /**
-     * @dev Unlocks the staked/gained TGEN and burns xTGEN.
+     * @notice Unlocks the staked/gained TGEN and burns xTGEN.
      * @param _share Number of xTGEN to burn.
      */
     function withdraw(uint256 _share) public {
         require (_share > 0, "TradegenStaking: Amount must be greater than 0.");
 
-        // Gets the amount of xTGEN in existence
+        // Gets the amount of xTGEN in existence.
         uint256 totalShares = totalSupply();
-        // Calculates the amount of TGEN the xTGEN is worth
+        // Calculates the amount of TGEN the xTGEN is worth.
         uint256 numberOfTGEN = _share.mul(TGEN.balanceOf(address(this))).div(totalShares);
 
         _burn(msg.sender, _share);
@@ -84,7 +84,7 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
     }
 
     /**
-     * @dev Withdraws the user's entire balance of xTGEN.
+     * @notice Withdraws the user's entire balance of xTGEN.
      */
     function exit() public {
         withdraw(balanceOf(msg.sender));

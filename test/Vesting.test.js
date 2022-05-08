@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const { parseEther } = require("@ethersproject/units");
-/*
+
 describe("Vesting", () => {
   let deployer;
   let otherUser;
@@ -22,10 +22,6 @@ describe("Vesting", () => {
 
     TradegenTokenFactory = await ethers.getContractFactory('TradegenToken');
     VestingFactory = await ethers.getContractFactory('TestVesting');
-
-    tradegenToken = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
-    await tradegenToken.deployed();
-    tradegenTokenAddress = tradegenToken.address;
   });
 
   beforeEach(async () => {
@@ -33,14 +29,18 @@ describe("Vesting", () => {
     deployer = signers[0];
     otherUser = signers[1];
 
-    vesting = await VestingFactory.deploy(tradegenTokenAddress);
+    vesting = await VestingFactory.deploy();
     await vesting.deployed();
     vestingAddress = vesting.address;
+
+    tradegenToken = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
+    await tradegenToken.deployed();
+    tradegenTokenAddress = tradegenToken.address;
 
     let tx = await tradegenToken.transfer(vestingAddress, parseEther("10000"));
     await tx.wait();
 
-    let tx2 = await vesting.initialize(parseEther("10000"));
+    let tx2 = await vesting.initialize(tradegenTokenAddress, parseEther("10000"));
     await tx2.wait();
   });
   
@@ -344,6 +344,8 @@ describe("Vesting", () => {
         let tx = await vesting.addBeneficiary(otherUser.address, Number(current) + ONE_WEEK, 12, parseEther("12"));
         await tx.wait();
 
+        let initialBalance = await tradegenToken.balanceOf(otherUser.address);
+
         // Simulate 2 weeks elapsed
         let tx2 = await vesting.setSchedule(otherUser.address, true, Number(current) - (ONE_WEEK * 11), Number(current) - 100, Number(current) - (ONE_WEEK * 11), parseEther("12"));
         await tx2.wait();
@@ -353,7 +355,8 @@ describe("Vesting", () => {
         await tx3.wait();
 
         let newBalance = await tradegenToken.balanceOf(otherUser.address);
-        expect(newBalance).to.equal(parseEther("12"));
+        let expectedNewBalance = BigInt(initialBalance) + BigInt(parseEther("12"));
+        expect(newBalance.toString()).to.equal(expectedNewBalance.toString());
 
         let totalTokensDistributed = await vesting.totalTokensDistributed();
         expect(totalTokensDistributed).to.equal(parseEther("12"));
@@ -423,4 +426,4 @@ describe("Vesting", () => {
         expect(scheduleOther.numberOfTokens).to.equal(parseEther("12"));
     });
   });
-});*/
+});

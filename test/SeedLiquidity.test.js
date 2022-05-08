@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 const { parseEther } = require("@ethersproject/units");
-
+/*
 describe("SeedLiquidity", () => {
   let deployer;
   let otherUser;
@@ -38,21 +38,13 @@ describe("SeedLiquidity", () => {
     UbeswapRouterFactory = await ethers.getContractFactory('UniswapV2Router02');
     PairDataFactory = await ethers.getContractFactory('PairData');
 
-    tradegenToken = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
+    tradegenToken = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
     await tradegenToken.deployed();
     tradegenTokenAddress = tradegenToken.address;
 
-    mockCELO = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
+    mockCELO = await TradegenTokenFactory.deploy(deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address, deployer.address);
     await mockCELO.deployed();
     mockCELOAddress = mockCELO.address;
-
-    ubeswapFactory = await UbeswapFactoryFactory.deploy(deployer.address);
-    await ubeswapFactory.deployed();
-    ubeswapFactoryAddress = ubeswapFactory.address;
-
-    ubeswapRouter = await UbeswapRouterFactory.deploy(ubeswapFactoryAddress);
-    await ubeswapRouter.deployed();
-    ubeswapRouterAddress = ubeswapRouter.address;
 
     pairData = await PairDataFactory.deploy();
     await pairData.deployed();
@@ -64,12 +56,23 @@ describe("SeedLiquidity", () => {
     deployer = signers[0];
     otherUser = signers[1];
 
-    seedLiquidity = await SeedLiquidityFactory.deploy(ubeswapRouterAddress, tradegenTokenAddress, mockCELOAddress);
+    ubeswapFactory = await UbeswapFactoryFactory.deploy(deployer.address);
+    await ubeswapFactory.deployed();
+    ubeswapFactoryAddress = ubeswapFactory.address;
+
+    ubeswapRouter = await UbeswapRouterFactory.deploy(ubeswapFactoryAddress);
+    await ubeswapRouter.deployed();
+    ubeswapRouterAddress = ubeswapRouter.address;
+
+    seedLiquidity = await SeedLiquidityFactory.deploy(ubeswapRouterAddress, mockCELOAddress);
     await seedLiquidity.deployed();
     seedLiquidityAddress = seedLiquidity.address;
-  });
 
-  describe("#supplySeedLiquidity", () => {/*
+    let tx = await seedLiquidity.setTGEN(tradegenTokenAddress);
+    await tx.wait();
+  });
+  
+  describe("#supplySeedLiquidity", () => {
     it("not enough balance", async () => {
         let tx = seedLiquidity.supplySeedLiquidity();
         await expect(tx).to.be.reverted;
@@ -104,7 +107,7 @@ describe("SeedLiquidity", () => {
 
         let totalSupply = await pairData.getTotalSupply(pair);
         expect(totalSupply).to.equal(parseEther("10"));
-    });*/
+    });
 
     it("only can supply liquidity once", async () => {
         let tx = await tradegenToken.transfer(seedLiquidityAddress, parseEther("10"));
@@ -135,4 +138,4 @@ describe("SeedLiquidity", () => {
         expect(totalSupply).to.equal(parseEther("10"));
     });
   });
-});
+});*/
