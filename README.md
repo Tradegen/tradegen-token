@@ -1,6 +1,6 @@
 # Tradegen Token
 
-Tradegen is an asset management and synthetic trading bot protocol built on Celo. These contracts are responsible for the creation and distribution of TGEN, the protocol's governance token.
+Tradegen is an asset management and algo trading protocol built on Celo. These contracts are responsible for the creation and distribution of TGEN, the protocol's governance token.
 
 ## Disclaimer
 
