@@ -4,7 +4,9 @@ Tradegen is an asset management and algo trading protocol built on Celo. These c
 
 ## Disclaimer
 
-These contracts have not been audited or deployed yet.
+These contracts have not been audited yet.
+
+The contract are available on testnet, but not on mainnet.
 
 ## Docs
 
