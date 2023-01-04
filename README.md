@@ -4,11 +4,32 @@
 
 Create a governance token, TGEN, for the Tradegen project.
 
+## Overview
+
+The Tradegen token, TGEN, is an ERC20 governance token launched on the Celo blockchain. TGEN will primarily be used for incentivizing users to actively engage with the platform. Some use cases include rewarding top-performing pools, voting on proposals to improve the platform, making payments on the platform's marketplace, voting for trading bots, and distributing grants.
+
 ## Disclaimer
 
 These contracts have not been audited yet.
 
 The contracts are available on testnet, but not on mainnet.
+
+## Distribution
+
+1,000,000,000 TGEN have been minted and distributed as follows: 
+
+* Team - 50,000,000
+* Investors - 50,000,000
+* Development fund - 50,000,000
+* Insurance fund - 50,000,000
+* Community fund - 100,000,000
+* Liquidity mining - 200,000,000
+* Cross-chain liquidity/incentives - 200,000,000
+* Farming for capped pools - 300,000,000
+
+Tokens are distributed automatically when the contract is deployed. No new tokens will be minted.
+
+TGEN allocated to investors and the core team are locked with an 18-month linear vest. Tokens allocated to cross-chain liquidity/incentives are held in escrow until Tradegen is ready to launch on other chains. All allocations other than team and investors are unlocked on a halvening release schedule.
 
 ## Smart Contracts
 
