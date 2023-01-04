@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.3;
 
-// Interfaces
+// Interfaces.
 import "./Ubeswap/interfaces/IUniswapV2Pair.sol";
 
 contract PairData {

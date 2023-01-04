@@ -2,6 +2,7 @@
 
 pragma solidity ^0.8.3;
 
+// OpenZeppelin.
 import "./openzeppelin-solidity/contracts/ERC20/SafeERC20.sol";
 import "./openzeppelin-solidity/contracts/ERC20/ERC20.sol";
 import "./openzeppelin-solidity/contracts/ERC20/IERC20.sol";
@@ -61,6 +62,7 @@ contract TradegenStaking is ERC20("Tradegen Staking Token", "xTGEN"){
 
             emit Stake(msg.sender, _amount, numberOfShares);
         }
+
         // Lock the TGEN in the contract.
         TGEN.safeTransferFrom(msg.sender, address(this), _amount);
     }

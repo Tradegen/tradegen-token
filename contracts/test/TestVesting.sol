@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.3;
 
-//Libraries
+// Libraries.
 import "../Vesting.sol";
 
 contract TestVesting is Vesting {

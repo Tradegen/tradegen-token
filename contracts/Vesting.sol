@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.3;
 
-//OpenZeppelin
+// OpenZeppelin.
 import "./openzeppelin-solidity/contracts/ERC20/SafeERC20.sol";
 import "./openzeppelin-solidity/contracts/ERC20/IERC20.sol";
 import "./openzeppelin-solidity/contracts/Ownable.sol";
