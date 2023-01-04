@@ -8,7 +8,15 @@ Create a governance token, TGEN, for the Tradegen project.
 
 These contracts have not been audited yet.
 
-The contract are available on testnet, but not on mainnet.
+The contracts are available on testnet, but not on mainnet.
+
+## Smart Contracts
+
+* SeedLiquidity - Supplies initial liquidity for TGEN when the token is deployed.
+* Timelock - The treasury for multiple funds in the Tradegen project.
+* TradegenStaking - Implements the reward program for staking TGEN.
+* TradegenToken - The Tradegen token contract. Distributes tokens to each escrow contract automatically when the contract is deployed.
+* Vesting - Handles token vesting for the team and investors.
 
 ## Repository Structure
 
